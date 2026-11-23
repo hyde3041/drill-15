@@ -8,6 +8,7 @@ from transitions import Machine
 
 import game_world
 from ball import Ball
+from zombie import Zombie
 
 import game_framework
 
@@ -108,6 +109,7 @@ class Boy:
         self.pressed_keys = set()
         self.item = 'Ball'
         self.ball_count = 10  # 가지고 있는 공의 개수
+        self.game_over = False
 
         self.states = {'IDLE': Idle(), 'SLEEP': Sleep(), 'RUN': Run()}
 
@@ -192,3 +194,5 @@ class Boy:
         if isinstance(other, Ball):
             game_world.remove_object(other)
             self.ball_count += 1
+        elif isinstance(other, Zombie):
+            self.game_over = True

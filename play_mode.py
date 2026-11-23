@@ -20,7 +20,7 @@ def handle_events():
             return
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.quit()
-        else:
+        elif not boy.game_over:
             boy.handle_event(event)
 
 
@@ -45,8 +45,11 @@ def init():
     game_world.add_collision_pairs("boy:ball", boy, None)
     for ball in balls:
         game_world.add_collision_pairs("boy:ball", None, ball)
+        game_world.add_collision_pairs("ball:zombie", ball, None)
+    game_world.add_collision_pairs("boy:zombie", boy, None)
     for zombie in zombies:
         game_world.add_collision_pairs("ball:zombie", None, zombie)
+        game_world.add_collision_pairs("boy:zombie", None, zombie)
 
 
 def pause():
@@ -64,8 +67,9 @@ def finish():
 
 
 def update():
-    game_world.update()
-    game_world.handle_collision()
+    if not boy.game_over:
+        game_world.update()
+        game_world.handle_collision()
 
 def render():
     clear_canvas()

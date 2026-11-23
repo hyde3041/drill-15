@@ -62,7 +62,10 @@ class Zombie:
     def handle_collision(self, other):
         if isinstance(other, Ball):
             game_world.remove_object(other)
+            if other.stopped:
+                return
             if self.size == 200:
                 self.size //= 2
+                self.y -= self.size // 2
             else:
                 game_world.remove_object(self)
